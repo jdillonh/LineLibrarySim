@@ -1,3 +1,0 @@
-# Linelibrary
-
-The LineLibrary simulator... 
