@@ -1,0 +1,89 @@
+local pane = require('pane')
+local switch = require('switch')
+local lg = love.graphics
+
+local my_orders = {}
+local btn_w, btn_h = 100, 32
+
+local x, y = 214 + 250, 300 + 200
+local w, h = lg.getWidth() - (214 + 250), lg.getHeight() - (300 + 200)
+
+
+local mo_load = function(self)
+   local cW = w
+   self.ended_switch = switch.new(
+      cW - btn_w, 0, btn_w, btn_h,
+      {color.blue, 'ended'},
+      {color.vdark, 'ended'},
+      x + cW - btn_w, y 
+   )
+   self.finished_switch = switch.new(
+      cW - 2*btn_w, 0, btn_w, btn_h,
+      {color.blue, 'finished'},
+      {color.vdark, 'finished'},
+      x + cW - 2*btn_w, y 
+    )
+   self.pending_switch = switch.new(
+      cW - 3*btn_w, 0, btn_w, btn_h,
+      {color.blue, 'pending'},
+      {color.vdark, 'pending'},
+      x + cW - 3*btn_w, y 
+   )
+   self.ended_switch.on_press = function() -- NO self here
+      self.finished_switch:turn_off()
+      self.pending_switch:turn_off()
+   end
+
+   self.finished_switch.on_press = function()
+      self.ended_switch:turn_off()
+      self.pending_switch:turn_off()
+   end
+
+   self.pending_switch.on_press = function()
+      self.ended_switch:turn_off()
+      self.finished_switch:turn_off()
+   end
+
+
+end
+
+local mo_update = function(self, dt)
+end
+
+local mo_mousepressed = function(self, x, y, b)
+   self.pending_switch:mousepressed(x, y, b)
+   self.ended_switch:mousepressed(x, y, b)
+   self.finished_switch:mousepressed(x, y, b)
+end
+
+local mo_draw = function(self)
+   self.pending_switch:draw()
+   self.ended_switch:draw()
+   self.finished_switch:draw()
+end
+
+	
+local mo_pane = pane.new(x, y, w, h,
+			 mo_load, mo_update, mo_draw,
+			 {'bottom','right'})
+mo_pane._mousepressed = mo_mousepressed		 
+
+
+function my_orders.load()
+end
+
+function my_orders.update(dt)
+
+end
+
+function my_orders.mousepressed(x, y, b)
+   mo_pane:mousepressed(x, y, b)
+end
+
+function my_orders.draw()
+   mo_pane:draw()
+end
+
+
+return my_orders
+
