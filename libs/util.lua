@@ -42,7 +42,6 @@ end
 
 
 -- shifts a list back so that it doesn;t have a bunch of nils at the front
--- TODO I think this has a bug idk
 function util.shift_back(t)
   local front_found = false
   local front = 0
