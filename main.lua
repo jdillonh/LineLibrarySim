@@ -18,7 +18,7 @@ team2 = {
   score = 0,
 }
 
--- TODO add button width, button height !!!, make everythong use it
+
 ui = {
   btn_w = nil,
   btn_h = nil,
